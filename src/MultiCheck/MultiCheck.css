@@ -1,3 +1,45 @@
-/* TODO */
-.MultiCheck {
+/* 多选组件外层样式 */
+.MultiCheck-options {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 16px 10px 10px;
+  display: flex;
+  gap: 32px;
+  background: #fff;
 }
+
+.MultiCheck-option-item {
+    display: flex;
+    align-items: center;
+  margin: 6px 0;
+  font-size: 15px;
+  cursor: pointer;
+  user-select: none;
+  }
+  
+.MultiCheck-label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  font-size: 16px;
+  }
+
+.MultiCheck-options > div {
+  flex: 1;
+  min-width: 160px;
+  }
+
+.status-title-box {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 14px 24px 10px 24px;
+  margin-bottom: 18px;
+}
+
+.status-title-box h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+  color: #222;
+}
+  

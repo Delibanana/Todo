@@ -2,21 +2,24 @@ import React, {useState} from 'react';
 import MultiCheck, {Option} from './MultiCheck/MultiCheck';
 
 const options: Option[] = [
-  {label: 'aaa', value: '111',},
-  {label: 'bbb', value: '222',},
-  {label: 'ccc', value: '333',},
-  {label: 'ddd', value: '444',},
-  {label: 'eee', value: '555',},
-  {label: 'fff', value: '666',},
-  {label: 'ggg', value: '777',},
-  {label: 'hhh', value: '888',},
-  {label: 'iii', value: '999',},
-]
+  {label: 'New (NEW)', value: 'NEW'},
+  {label: 'Active (ACT)', value: 'ACT'},
+  {label: 'Price Change (PCG)', value: 'PCG'},
+  {label: 'Back on Market (BOM)', value: 'BOM'},
+  {label: 'Extended (EXT)', value: 'EXT'},
+  {label: 'Reactivated (RAC)', value: 'RAC'},
+  {label: 'Contingent (CTG)', value: 'CTG'},
+  {label: 'Under Agreement', value: 'UA'},
+  {label: 'Sold (SLD)', value: 'SLD'},
+  {label: 'Temporarily Withdrawn (WDN)', value: 'WDN'},
+  {label: 'Expired (EXP)', value: 'EXP'},
+  {label: 'Canceled (CAN)', value: 'CAN'},
+  {label: 'Coming Soon (CSO)', value: 'CSO'},
+];
 
 const defaultValues: string[] = [
-  '333',
-  '555'
-]
+  'NEW', 'ACT', 'PCG', 'RAC', 'UA', 'CSO'
+];
 
 const App: React.FunctionComponent = (): JSX.Element => {
   const [selectedValues, setSelectedValues] = useState<string[]>(defaultValues);
@@ -26,8 +29,10 @@ const App: React.FunctionComponent = (): JSX.Element => {
   }
 
   return <div>
-    <h1>Multi Check Component</h1>
-    <MultiCheck label='my-multi-check' options={options}
+    <div className='status-title-box'>
+      <h1>Status</h1>
+    </div>
+    <MultiCheck label='' options={options}
                 onChange={onSelectedOptionsChange}
                 values={selectedValues}
                 columns={2}/>

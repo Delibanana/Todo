@@ -1,6 +1,6 @@
 import './MultiCheck.css';
 
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 
 export type Option = {
   label: string,
@@ -31,44 +31,51 @@ const MultiCheck: React.FunctionComponent<Props> = (props: Props): JSX.Element =
   // 1. 解构 props，设置默认值
   const { label, options, values = [], onChange, columns = 1 } = props;
 
-  // 2. 判断是否全选（所有选项都被选中）
-  const allChecked = options.length > 0 && options.every((opt: Option) => values.includes(opt.value));
-  // 3. 判断是否为部分选中（用于 indeterminate 状态）
-  const isIndeterminate = values.length > 0 && !allChecked;
+  // 2. 判断是否全选（所有选项都被选中），用 useMemo 缓存
+  const allChecked = useMemo(() =>
+    options.length > 0 && options.every(opt => values.includes(opt.value)),
+    [options, values]
+  );
 
-  // 4. 处理单个选项变化
-  const handleChange = (value: string) => {
+  // 3. 判断是否为部分选中（用于 indeterminate 状态），用 useMemo 缓存
+  const isIndeterminate = useMemo(() =>
+    values.length > 0 && !allChecked,
+    [values, allChecked]
+  );
+
+  // 4. 处理单个选项变化（用 useCallback 优化）
+  const handleChange = useCallback((value: string) => {
     let newValues: string[];
     if (values.includes(value)) {
       // 取消选中
-      newValues = values.filter((v: string) => v !== value);
+      newValues = values.filter(v => v !== value);
     } else {
       // 选中
       newValues = [...values, value];
     }
     // 通知父组件选中项变化
     if (onChange) {
-      const selectedOptions = options.filter((opt: Option) => newValues.includes(opt.value));
+      const selectedOptions = options.filter(opt => newValues.includes(opt.value));
       onChange(selectedOptions);
     }
-  };
+  }, [values, options, onChange]);
 
-  // 5. 处理“全选”变化
-    const handleSelectAll = () => {
+  // 5. 处理“全选”变化（用 useCallback 优化）
+  const handleSelectAll = useCallback(() => {
     let newValues: string[];
     if (allChecked) {
       // 已全选，点击后全部取消
       newValues = [];
     } else {
       // 未全选，点击后全部选中
-      newValues = options.map((opt: Option) => opt.value);
+      newValues = options.map(opt => opt.value);
     }
     // 通知父组件选中项变化
     if (onChange) {
-      const selectedOptions = options.filter((opt: Option) => newValues.includes(opt.value));
+      const selectedOptions = options.filter(opt => newValues.includes(opt.value));
       onChange(selectedOptions);
     }
-  };
+  }, [allChecked, options, onChange]);
 
   // 6. 多列分配（自上而下分配到 columns 列）
   const getColumns = () => {
